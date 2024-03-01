@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dynamic Accordion</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      background-color: lightgoldenrodyellow;
+    }
+
+    .accordion {
+      max-width: 400px;
+      width: 100%;
+    }
+
+    .accordion-item {
+      border: 1px solid #ddd;
+      margin-bottom: 10px;
+      overflow: hidden;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .accordion-title {
+      background-color: #3498db;
+      color: #fff;
+      padding: 15px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .accordion-content {
+      padding: 15px;
+      display: none;
+      background-color: #ecf0f1;
+    }
+
+    .accordion-content p {
+      margin: 0;
+    }
+
+    .accordion-buttons {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px;
+    }
+
+    .accordion-buttons input,
+    .accordion-buttons textarea,
+    .accordion-buttons button {
+      margin-bottom: 10px;
+    }
+
+    .accordion-buttons button {
+      background-color: #2ecc71;
+      color: #fff;
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .accordion-buttons button:hover {
+      background-color: #27ae60;
+    }
+
+    #accordionTitle{
+      color: black;
+      padding: 10px;
+      font-weight: bold;
+    }
+
+    #accordionDescription{
+      color: black;
+      padding: 10px;
+      font-weight: bold;
+    }
+
+  </style>
+</head>
+<body>
+
+<div class="accordion" id="accordionContainer">
+</div>
+
+<div class="accordion-buttons">
+  <input type="text" id="accordionTitle" placeholder="Enter title">
+  <textarea id="accordionDescription" placeholder="Enter description"></textarea>
+  <button id="addAccordionItem">Add Accordion Item</button>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const accordionContainer = document.getElementById('accordionContainer');
+    const addAccordionItemButton = document.getElementById('addAccordionItem');
+    const accordionTitleInput = document.getElementById('accordionTitle');
+    const accordionDescriptionTextarea = document.getElementById('accordionDescription');
+
+    function createAccordionItem(title, description) {
+      const accordionItem = document.createElement('div');
+      accordionItem.classList.add('accordion-item');
+
+      const accordionTitle = document.createElement('div');
+      accordionTitle.classList.add('accordion-title');
+      accordionTitle.textContent = title;
+      accordionTitle.addEventListener('click', () => toggleAccordion(accordionContent));
+
+      const accordionContent = document.createElement('div');
+      accordionContent.classList.add('accordion-content');
+      accordionContent.innerHTML = `<p>${description}</p>`;
+
+      accordionItem.appendChild(accordionTitle);
+      accordionItem.appendChild(accordionContent);
+
+      return accordionItem;
+    }
+
+    function toggleAccordion(element) {
+      element.style.display = (element.style.display === 'none' || element.style.display === '') ? 'block' : 'none';
+    }
+
+    function addAccordionItem() {
+      const title = accordionTitleInput.value.trim();
+      const description = accordionDescriptionTextarea.value.trim();
+
+      if (title && description) {
+        const accordionItem = createAccordionItem(title, description);
+        accordionContainer.appendChild(accordionItem);
+        accordionTitleInput.value = '';
+        accordionDescriptionTextarea.value = '';
+      } else {
+        alert('Title and description are required.');
+      }
+    }
+    addAccordionItemButton.addEventListener('click', addAccordionItem);
+    const defaultItems = [
+      { title: 'Accordion 1', description: 'Description 1' },
+    ];
+
+    defaultItems.forEach(item => {
+      const accordionItem = createAccordionItem(item.title, item.description);
+      accordionContainer.appendChild(accordionItem);
+    });
+  });
+</script>
+
+</body>
+</html>
+
